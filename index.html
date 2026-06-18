@@ -132,6 +132,31 @@
       color: var(--tan);
     }
 
+    .hero-brand-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-brand-line span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .hero-brand-line .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--tan);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
     .hero-sub {
       font-size: 0.95rem;
       color: rgba(255,255,255,0.65);
@@ -695,6 +720,12 @@
   <div class="hero-inner">
     <p class="hero-eyebrow">Premium Household Management · Northern New Jersey</p>
     <h1 class="hero-headline">Time is a luxury.<br /><em>Relief is a luxury.</em></h1>
+    <div class="hero-brand-line">
+      <span>Structure</span><div class="dot"></div>
+      <span>Order</span><div class="dot"></div>
+      <span>Calm</span><div class="dot"></div>
+      <span>By Design</span>
+    </div>
     <p class="hero-sub">
       We help busy families and professionals reclaim both — through discreet,
       structured, high-touch household management built on executive-grade systems
@@ -975,7 +1006,7 @@
 <!-- FOOTER -->
 <footer>
   <img src="hero.png" alt="Blueprint Household Management" class="footer-logo" />
-  <p class="footer-tagline">"Time is a luxury. Relief is a luxury."</p>
+  <p class="footer-tagline">Structure &nbsp;·&nbsp; Order &nbsp;·&nbsp; Calm &nbsp;·&nbsp; By Design</p>
   <div class="footer-contact">
     <a href="tel:+12018745989">(201) 874-5989</a>
     <a href="mailto:blueprint.hhm@gmail.com">blueprint.hhm@gmail.com</a>
