@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blueprint Household Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #1B3550;
+      --sage:  #7A9E8A;
+      --cream: #F8F4EE;
+      --tan:   #C4A678;
+      --dark:  #2C2C2C;
+      --mid:   #5A5A5A;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(27, 53, 80, 0.97);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--tan); }
+
+    .nav-cta {
+      background: var(--tan);
+      color: var(--white) !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+    }
+
+    .nav-cta:hover { background: #b8966a !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--sage);
+      opacity: 0.15;
+    }
+
+    .hero-shape-1 { width: 500px; height: 500px; top: -150px; right: -100px; }
+    .hero-shape-2 { width: 300px; height: 300px; bottom: -80px; left: -60px; }
+
+    .hero-inner {
+      max-width: 820px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--tan);
+      margin-bottom: 1.8rem;
+      font-weight: 500;
+    }
+
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--tan);
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin: 0 auto 2.8rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--tan);
+      color: var(--white);
+      padding: 0.9rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: #b8966a; transform: translateY(-1px); }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.85);
+      padding: 0.9rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover { border-color: var(--tan); color: var(--tan); }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2rem; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sage);
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-lead {
+      font-size: 0.95rem;
+      color: var(--mid);
+      max-width: 580px;
+      margin-bottom: 3.5rem;
+      line-height: 1.8;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .about-stat { border-left: 2px solid var(--tan); padding-left: 1rem; }
+
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .about-stat-label {
+      font-size: 0.72rem;
+      color: var(--mid);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    .about-quote {
+      background: var(--navy);
+      color: var(--white);
+      padding: 3rem;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .about-quote::before {
+      content: '\201C';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      color: var(--tan);
+      opacity: 0.4;
+      position: absolute;
+      top: -1.5rem;
+      left: 1.5rem;
+      line-height: 1;
+    }
+
+    .about-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .about-quote cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tan);
+      font-style: normal;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 2.2rem 1.8rem;
+      border-radius: 2px;
+      border-top: 3px solid var(--sage);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(27,53,80,0.1);
+    }
+
+    .service-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+      font-weight: 500;
+    }
+
+    .service-desc {
+      font-size: 0.83rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ── PROCESS ── */
+    #process { background: var(--navy); }
+
+    #process .section-title { color: var(--white); }
+    #process .section-eyebrow { color: var(--tan); }
+    #process .section-lead { color: rgba(255,255,255,0.6); }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .process-step {
+      border-left: 1px solid rgba(196,166,120,0.3);
+      padding-left: 1.8rem;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      color: var(--tan);
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── PACKAGES ── */
+    #packages { background: var(--white); }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .package-card {
+      border: 1px solid #E8E2D9;
+      padding: 3rem 2.5rem;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .package-card.featured {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .package-badge {
+      position: absolute;
+      top: -1px;
+      right: 2rem;
+      background: var(--tan);
+      color: var(--white);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+    }
+
+    .package-name {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .package-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .package-card.featured .package-price { color: var(--white); }
+
+    .package-price span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--mid);
+    }
+
+    .package-card.featured .package-price span { color: rgba(255,255,255,0.5); }
+
+    .package-divider {
+      border: none;
+      border-top: 1px solid #E8E2D9;
+      margin: 1.8rem 0;
+    }
+
+    .package-card.featured .package-divider { border-color: rgba(255,255,255,0.15); }
+
+    .package-includes {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .package-card.featured .package-includes { color: rgba(255,255,255,0.4); }
+
+    .package-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .package-features li {
+      font-size: 0.83rem;
+      color: var(--mid);
+      padding: 0.4rem 0;
+      padding-left: 1.4rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .package-card.featured .package-features li { color: rgba(255,255,255,0.7); }
+
+    .package-features li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--sage);
+      font-size: 0.8rem;
+    }
+
+    .package-note {
+      font-size: 0.72rem;
+      color: var(--mid);
+      font-style: italic;
+      margin-top: -1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .package-card.featured .package-note { color: rgba(255,255,255,0.4); }
+
+    .btn-package {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.85rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .btn-package-outline {
+      border: 1px solid var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-package-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-package-solid {
+      background: var(--tan);
+      color: var(--white);
+    }
+
+    .btn-package-solid:hover { background: #b8966a; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--cream); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .contact-info-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-info-value {
+      font-size: 0.95rem;
+      color: var(--navy);
+      font-weight: 400;
+      text-decoration: none;
+    }
+
+    .contact-info-value:hover { color: var(--sage); }
+
+    .contact-form { display: grid; gap: 1.2rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .form-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1px solid #DDD8CF;
+      border-radius: 2px;
+      padding: 0.85rem 1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.88rem;
+      color: var(--dark);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--sage); }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s;
+      width: 100%;
+    }
+
+    .form-submit:hover { background: #142840; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      height: 45px;
+      width: auto;
+      margin-bottom: 1.2rem;
+      opacity: 0.85;
+    }
+
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-contact {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .footer-contact a {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover { color: var(--tan); }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+
+      .about-grid,
+      .packages-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .about-stat-row { flex-wrap: wrap; gap: 1.5rem; }
+
+      section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="logo.jpg" alt="Blueprint Household Management" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-shape hero-shape-1"></div>
+  <div class="hero-shape hero-shape-2"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Premium Household Management · Northern New Jersey</p>
+    <h1 class="hero-headline">Time is a luxury.<br /><em>Relief is a luxury.</em></h1>
+    <p class="hero-sub">
+      We help busy families and professionals reclaim both — through discreet,
+      structured, high-touch household management built on executive-grade systems
+      and consistent follow-through.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Schedule a Consultation</a>
+      <a href="#services" class="btn-outline">See What We Do</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div>
+        <p class="section-eyebrow">About Blueprint</p>
+        <h2 class="section-title">We run the home.<br />You run your life.</h2>
+        <p class="section-lead">
+          Blueprint Household Management brings executive-grade operations discipline
+          to the home. Led by a PMP-certified professional with 10+ years of delivery
+          leadership experience, we don't just help — we manage.
+        </p>
+        <p style="font-size:0.88rem; color:var(--mid); line-height:1.8; margin-bottom:1.5rem;">
+          Most households run in reactive mode — responding to problems instead of
+          staying ahead of them. Vendors fall through. Maintenance gets deferred.
+          The mental load compounds quietly until the home feels like a second job
+          nobody asked for.
+        </p>
+        <p style="font-size:0.88rem; color:var(--mid); line-height:1.8;">
+          Blueprint changes that. One trusted operator. One clear system. One less
+          thing you have to hold in your head.
+        </p>
+        <div class="about-stat-row">
+          <div class="about-stat">
+            <div class="about-stat-num">10+</div>
+            <div class="about-stat-label">Years Operations Experience</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">PMP</div>
+            <div class="about-stat-label">Certified Professional</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">NJ</div>
+            <div class="about-stat-label">Morris &amp; Somerset County</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-quote">
+        <p>
+          You are not hiring someone to help around the house.
+          You are hiring someone to run it.
+        </p>
+        <cite>— Blueprint Household Management</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-eyebrow">What We Do</p>
+    <h2 class="section-title">Five areas. One trusted operator.</h2>
+    <p class="section-lead">
+      Blueprint manages the operational layer of your home — the part that requires
+      judgment, follow-through, and continuity. Not cleaning. Not errands.
+      Operational ownership.
+    </p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🏠</div>
+        <h3 class="service-title">Household Operations &amp; Logistics</h3>
+        <p class="service-desc">Vendor coordination, maintenance scheduling, service window management, seasonal planning, and open-issue tracking.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📋</div>
+        <h3 class="service-title">Project Coordination</h3>
+        <p class="service-desc">Renovation oversight, contractor management, move-in/move-out support, and household improvement project tracking.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📅</div>
+        <h3 class="service-title">Family &amp; Lifestyle Coordination</h3>
+        <p class="service-desc">Appointment scheduling, activity coordination, travel prep, calendar management, and family logistics support.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📦</div>
+        <h3 class="service-title">Inventory &amp; Organization</h3>
+        <p class="service-desc">Supply management, pantry systems, return coordination, and organizational systems for key household spaces.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">👥</div>
+        <h3 class="service-title">Service Provider Oversight</h3>
+        <p class="service-desc">Liaison management with cleaners, contractors, tutors, and other household service providers. Schedule and quality tracking.</p>
+      </div>
+    </div>
+    <p style="font-size:0.78rem; color:var(--mid); margin-top:2rem; font-style:italic;">
+      Childcare is excluded from all packages. All other scope questions are addressed in the discovery call.
+    </p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-inner">
+    <p class="section-eyebrow">How We Work</p>
+    <h2 class="section-title">Every engagement starts the same way.</h2>
+    <p class="section-lead">
+      Before any monthly service begins, every client goes through a paid Diagnostic
+      and Setup phase. This protects both parties and ensures the engagement is built
+      on a clear, shared understanding of the household.
+    </p>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Discovery Call</h3>
+        <p class="step-desc">A focused conversation to understand your household, identify pain points, and confirm we're the right fit for each other.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h3 class="step-title">In-Home Assessment</h3>
+        <p class="step-desc">A structured walkthrough of your property, vendors, systems, and current friction points. We see the full picture before we start.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Priority Mapping</h3>
+        <p class="step-desc">Pain-point capture, vendor review, and a clear list of what needs attention immediately versus what can be scheduled.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Household Plan</h3>
+        <p class="step-desc">A draft 30-day or 90-day household management plan — specific to your home, your vendors, and your priorities.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">05</div>
+        <h3 class="step-title">System Setup</h3>
+        <p class="step-desc">Dashboard, contact records, maintenance calendar, and communication cadence established before the first retainer month begins.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">06</div>
+        <h3 class="step-title">Ongoing Management</h3>
+        <p class="step-desc">Weekly updates, monthly recaps, proactive seasonal planning, and consistent follow-through — every month, without you having to ask.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="section-inner">
+    <p class="section-eyebrow" style="text-align:center;">Packages</p>
+    <h2 class="section-title" style="text-align:center;">Clear scope. Transparent pricing.</h2>
+    <p class="section-lead" style="text-align:center; margin-left:auto; margin-right:auto;">
+      All packages begin with a paid Diagnostic and Setup phase.
+      Monthly service starts after the diagnostic is complete.
+    </p>
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <div class="package-name">Essentials</div>
+        <div class="package-price">$650 <span>/ month</span></div>
+        <hr class="package-divider" />
+        <div class="package-includes">What's included</div>
+        <ul class="package-features">
+          <li>2 in-home visits per month</li>
+          <li>Weekly communication &amp; status update</li>
+          <li>Light vendor coordination</li>
+          <li>Basic household administration</li>
+          <li>One active project at a time</li>
+        </ul>
+        <p class="package-note">Best for households needing light, reliable structure and a single point of contact.</p>
+        <a href="#contact" class="btn-package btn-package-outline">Get Started</a>
+      </div>
+
+      <div class="package-card featured">
+        <div class="package-badge">Most Popular</div>
+        <div class="package-name">Premium</div>
+        <div class="package-price">$1,500 <span>/ month</span></div>
+        <hr class="package-divider" />
+        <div class="package-includes">What's included</div>
+        <ul class="package-features">
+          <li>Weekly in-home visits</li>
+          <li>Full vendor coordination across all categories</li>
+          <li>Project oversight &amp; contractor management</li>
+          <li>Calendar, travel prep &amp; family logistics</li>
+          <li>Inventory management</li>
+          <li>Staff &amp; service provider liaison</li>
+          <li>Weekly updates + monthly household recap</li>
+        </ul>
+        <p class="package-note">Best for households with high complexity, active projects, or executives with heavy travel.</p>
+        <a href="#contact" class="btn-package btn-package-solid">Get Started</a>
+      </div>
+
+    </div>
+    <p style="text-align:center; font-size:0.78rem; color:var(--mid); margin-top:2rem; font-style:italic;">
+      All engagements begin with a paid Diagnostic &amp; Setup phase. Pricing confirmed during discovery call.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <p class="section-eyebrow">Get in Touch</p>
+        <h2 class="section-title">Let's talk about your household.</h2>
+        <p style="font-size:0.88rem; color:var(--mid); line-height:1.8; margin-bottom:2.5rem;">
+          The first step is a no-pressure discovery call. We'll talk through your
+          household, identify what's creating the most friction, and determine whether
+          Blueprint is the right fit.
+        </p>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <div class="contact-info-label">Phone</div>
+            <a href="tel:+12018745989" class="contact-info-value">(201) 874-5989</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div>
+            <div class="contact-info-label">Email</div>
+            <a href="mailto:blueprint.hhm@gmail.com" class="contact-info-value">blueprint.hhm@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <div class="contact-info-label">Service Area</div>
+            <span class="contact-info-value">Morris &amp; Somerset County, NJ</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" action="mailto:blueprint.hhm@gmail.com" method="POST" enctype="text/plain">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="First Name" placeholder="Jane" required />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="Last Name" placeholder="Smith" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="Email" placeholder="jane@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="Phone" placeholder="(201) 555-0000" />
+        </div>
+        <div class="form-group">
+          <label for="interest">I'm interested in</label>
+          <select id="interest" name="Interest">
+            <option value="">Select a package</option>
+            <option value="Essentials">Essentials — $650/month</option>
+            <option value="Premium">Premium — $1,500/month</option>
+            <option value="Not sure">Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell me about your household</label>
+          <textarea id="message" name="Message" placeholder="What's creating the most friction at home right now?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message</button>
+        <p style="font-size:0.72rem; color:var(--mid); text-align:center; margin-top:-0.5rem;">
+          Or call directly: <a href="tel:+12018745989" style="color:var(--sage);">(201) 874-5989</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.jpg" alt="Blueprint Household Management" class="footer-logo" />
+  <p class="footer-tagline">"Time is a luxury. Relief is a luxury."</p>
+  <div class="footer-contact">
+    <a href="tel:+12018745989">(201) 874-5989</a>
+    <a href="mailto:blueprint.hhm@gmail.com">blueprint.hhm@gmail.com</a>
+    <span style="color:rgba(255,255,255,0.25);">Morris &amp; Somerset County, NJ</span>
+  </div>
+  <p class="footer-copy">© 2026 Blueprint Household Management, LLC. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
