@@ -269,6 +269,40 @@
       margin-top: 0.3rem;
     }
 
+    .about-photo-wrap {
+      background: var(--navy);
+      padding: 1.5rem;
+      border-radius: 2px;
+    }
+
+    .about-photo-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 1px;
+      object-fit: cover;
+      aspect-ratio: 4 / 5;
+    }
+
+    .about-photo-caption {
+      text-align: center;
+      padding-top: 1.2rem;
+    }
+
+    .about-photo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+
+    .about-photo-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--tan);
+      margin-top: 0.3rem;
+    }
+
     .about-quote {
       background: var(--navy);
       color: var(--white);
@@ -689,6 +723,7 @@
       .about-grid,
       .packages-grid,
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-photo-wrap { order: -1; max-width: 280px; margin: 0 auto; }
 
       .form-row { grid-template-columns: 1fr; }
 
@@ -744,12 +779,13 @@
   <div class="section-inner">
     <div class="about-grid">
       <div>
-        <p class="section-eyebrow">About Blueprint</p>
-        <h2 class="section-title">We run the home.<br />You run your life.</h2>
+        <p class="section-eyebrow">About Blueprint Household Management</p>
+        <h2 class="section-title">A note from our founder.</h2>
         <p class="section-lead">
-          Blueprint Household Management brings executive-grade operations discipline
-          to the home. Led by a PMP-certified professional with 10+ years of delivery
-          leadership experience, we don't just help. We manage.
+          We run the home. You run your life. Blueprint Household Management
+          brings executive-grade operations discipline to the home. Led by a
+          PMP-certified professional with 10+ years of delivery leadership
+          experience, we don't just help. We manage.
         </p>
         <p style="font-size:0.88rem; color:var(--mid); line-height:1.8; margin-bottom:1.5rem;">
           Most households run in reactive mode, responding to problems instead of
@@ -780,12 +816,12 @@
           </div>
         </div>
       </div>
-      <div class="about-quote">
-        <p>
-          You are not hiring someone to help around the house.
-          You are hiring someone to run it.
-        </p>
-        <cite>Blueprint Household Management</cite>
+      <div class="about-photo-wrap">
+        <img src="founder.png" alt="Andrea Parado, Founder of Blueprint Household Management" />
+        <div class="about-photo-caption">
+          <div class="about-photo-name">Andrea Parado</div>
+          <div class="about-photo-role">Founder, Blueprint Household Management</div>
+        </div>
       </div>
     </div>
   </div>
